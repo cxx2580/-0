@@ -1,0 +1,9 @@
+-- SQL schema for the demo application
+CREATE DATABASE IF NOT EXISTS demo DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE demo;
+
+CREATE TABLE IF NOT EXISTS article (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  title VARCHAR(255) NOT NULL,
+  content TEXT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

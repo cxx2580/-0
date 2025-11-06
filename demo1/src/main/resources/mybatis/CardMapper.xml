@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.card.mapper.CardMapper">
+    <select id="selectByUserId" resultType="com.card.po.CardPO">
+        SELECT id, name, telephone, email, company, post, address, logo_name AS logoName, user_id AS userId
+        FROM card WHERE user_id = #{userId} ORDER BY id DESC
+    </select>
+
+    <select id="selectById" resultType="com.card.po.CardPO">
+        SELECT id, name, telephone, email, company, post, address, logo_name AS logoName, user_id AS userId
+        FROM card WHERE id = #{id} AND user_id = #{userId}
+    </select>
+
+    <insert id="insert" parameterType="com.card.po.CardPO">
+        INSERT INTO card (name, telephone, email, company, post, address, logo_name, user_id)
+        VALUES (#{name}, #{telephone}, #{email}, #{company}, #{post}, #{address}, #{logoName}, #{userId})
+    </insert>
+
+    <update id="update" parameterType="com.card.po.CardPO">
+        UPDATE card
+        SET name = #{name}, telephone = #{telephone}, email = #{email}, company = #{company},
+            post = #{post}, address = #{address}, logo_name = #{logoName}
+        WHERE id = #{id} AND user_id = #{userId}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM card WHERE id = #{id} AND user_id = #{userId}
+    </delete>
+</mapper>

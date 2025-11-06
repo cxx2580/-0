@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>修改名片</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        .container { margin-top: 30px; }
+        .form-text { color: #6c757d; }
+    </style>
+</head>
+<body>
+<!-- 导航栏 -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+        <a class="navbar-brand" href="#">名片管理系统</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/card/list}">名片列表</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/card/add}">添加名片</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        <span th:text="${session.loginUser.uname}"></span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" th:href="@{/user/updatePwd}">修改密码</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" th:href="@{/user/logout}">安全退出</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- 修改名片表单 -->
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-warning text-white">
+                    <h4 class="mb-0">修改客户名片</h4>
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/card/update}" method="post" th:object="${card}" enctype="multipart/form-data">
+                        <!-- 隐藏字段：名片ID（用于后端定位修改对象） -->
+                        <input type="hidden" th:field="*{id}" />
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label th:for="name" class="form-label">客户姓名 <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" th:field="*{name}"
+                                       placeholder="请输入客户姓名" th:value="${card.name}">
+                                <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger small"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <label th:for="telephone" class="form-label">联系电话 <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" th:field="*{telephone}"
+                                       placeholder="请输入11位手机号" th:value="${card.telephone}">
+                                <div th:if="${#fields.hasErrors('telephone')}" th:errors="*{telephone}" class="text-danger small"></div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label th:for="email" class="form-label">客户邮箱</label>
+                                <input type="email" class="form-control" th:field="*{email}"
+                                       placeholder="请输入客户邮箱" th:value="${card.email}">
+                            </div>
+                            <div class="col-md-6">
+                                <label th:for="company" class="form-label">客户单位</label>
+                                <input type="text" class="form-control" th:field="*{company}"
+                                       placeholder="请输入客户单位" th:value="${card.company}">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label th:for="post" class="form-label">客户职务</label>
+                                <input type="text" class="form-control" th:field="*{post}"
+                                       placeholder="请输入客户职务" th:value="${card.post}">
+                            </div>
+                            <div class="col-md-6">
+                                <label th:for="address" class="form-label">客户地址</label>
+                                <input type="text" class="form-control" th:field="*{address}"
+                                       placeholder="请输入客户地址" th:value="${card.address}">
+                            </div>
+                        </div>
+
+
+
+                        <!-- 错误提示 -->
+                        <div th:if="${updateError}" class="text-danger text-center mb-3" th:text="${updateError}"></div>
+
+                        <div class="d-flex justify-content-center gap-3">
+                            <button type="submit" class="btn btn-warning">保存修改</button>
+                            <a th:href="@{/card/list}" class="btn btn-secondary">取消</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
